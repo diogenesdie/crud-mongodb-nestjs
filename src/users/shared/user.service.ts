@@ -17,7 +17,9 @@ export class UserService {
     }
 
     async create(user: User){
+        const crypto = require('crypto');
         const createdUser = new this.userModel(user);
+        createdUser.password = crypto.createHmac('sha512', createdUser.password).digest('hex');
         return await createdUser.save();
     }
 
